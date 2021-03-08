@@ -42,7 +42,7 @@ def logger(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         """
-        함수의 시작과 끝에 로그를 출력하는 데코레이터.
+        Decorator that prints logs at the beginning and end of a function.
         """
         print(f'[{func_name}] startTime - ', datetime.datetime.now())
         res = func(*args, **kwargs)
