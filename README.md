@@ -3,4 +3,5 @@
 
 * login
 * jwt
+* HS256 encoding
 
