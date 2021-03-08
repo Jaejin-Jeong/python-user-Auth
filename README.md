@@ -1,3 +1,6 @@
-# python-user-Auth
-> Python user authentication module 
+# python-flask-user-Auth
+> Python flask user authentication module 
+
+* login
+* jwt
 
