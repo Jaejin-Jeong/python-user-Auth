@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, Response
 
+import datetime
 # user Auth
 import bcrypt
 import jwt
@@ -35,6 +36,22 @@ def login_required(f):
     return decorated_function
 
 
+def logger(func):
+    func_name = func.__name__
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        """
+        함수의 시작과 끝에 로그를 출력하는 데코레이터.
+        """
+        print(f'[{func_name}] startTime - ', datetime.datetime.now())
+        res = func(*args, **kwargs)
+        print(f'[{func_name}] endTime - ', datetime.datetime.now())
+        return res
+
+    return wrapper
+
+
 @app.route('/api/login', methods=['POST'])
 def user_login():
     # Get the input parameter by the json format
@@ -66,8 +83,15 @@ def user_login():
                }, 200
 
 
+@app.route('/api/', methods=['GET'])
+@logger
+def logger_test():
+    print("loggerTest Body")
+    return "ok"
+
+
 @app.route('/api/main', methods=['GET'])
-@user_login  # Apply to use Decorator
+@login_required  # Apply to use Decorator
 def hello_world():
     return 'Hello World!'
 
