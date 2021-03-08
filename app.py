@@ -7,6 +7,8 @@ from functools import wraps
 
 app = Flask(__name__)
 
+__SECRET_KEY = "secret"
+
 # Sample users
 users = [{"userId": "user",
           "userPwd": "1111"}]
@@ -20,7 +22,7 @@ def login_required(f):
         access_token = request.headers.get("Authorization")
         if access_token is not None:
             try:
-                payload = jwt.decode(access_token, "secret", "HS256")
+                payload = jwt.decode(access_token, __SECRET_KEY, "HS256")
             except jwt.InvalidTokenError:
                 payload = None
 
@@ -56,7 +58,7 @@ def user_login():
                }, 500
     else:
         # jwt token create
-        encoded = jwt.encode({'userId': name}, "secret", algorithm="HS256")
+        encoded = jwt.encode({'userId': name}, __SECRET_KEY, algorithm="HS256")
         request.headers.get('Authorization')
 
         return {
@@ -64,7 +66,8 @@ def user_login():
                }, 200
 
 
-@app.route('/')
+@app.route('/api/main', methods=['GET'])
+@user_login
 def hello_world():
     return 'Hello World!'
 
