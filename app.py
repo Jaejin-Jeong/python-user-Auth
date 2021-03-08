@@ -52,7 +52,7 @@ def user_login():
                    "message": "User Not Found"
                }, 404
     elif not bcrypt.checkpw(password.encode('utf-8'),
-                            bcrypt.hashpw(user["userPwd"].encode("utf-8"), bcrypt.gensalt())):  # 비밀번호 일치 확인
+                            bcrypt.hashpw(user["userPwd"].encode("utf-8"), bcrypt.gensalt())):  # Confirm password match
         return {
                    "message": "Auth Failed"
                }, 500
@@ -67,7 +67,7 @@ def user_login():
 
 
 @app.route('/api/main', methods=['GET'])
-@user_login
+@user_login  # Apply to use Decorator
 def hello_world():
     return 'Hello World!'
 
